@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Precios del Café</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0px;
+      background-color: #f4f4f9;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100vh;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    .precio {
+      background-color: #fff;
+      padding: 20px;
+      margin: 10px 0;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      flex-grow: 1;
+    }
+    .precio span {
+      font-weight: bold;
+      color: #2a9d8f;
+    }
+    .error {
+      color: red;
+      text-align: center;
+      font-size: 1.2em;
+    }
+    .creador {
+      text-align: center;
+      color: #888;
+      margin-top: 20px;
+      font-size: 1.1em;
+    }
+  </style>
+</head>
+<body>
+  <h1>Precios del Café de Federacion</h1>
+  <div id="precios" class="precio">
+    <p>Cargando los precios...</p>
+  </div>
+
+  <div class="creador">
+    <p>Creado por: Brayan Stiven Cortes Castro</p>
+  </div>
+
+  <script>
+    async function obtenerPrecios() {
+      try {
+        const response = await fetch('http://localhost:3000/precio-cafe');
+        if (!response.ok) {
+          throw new Error('Error al obtener los precios del servidor.');
+        }
+        const data = await response.json();
+
+        if (data.precios) {
+          const { precioInterno, pasillaFinca, bolsaNY, tasaCambio, meCIC } = data.precios;
+          document.getElementById('precios').innerHTML = ` 
+            <p><span>Precio Interno:</span> $${precioInterno}</p>
+            <p><span>Pasilla de Finca:</span> $${pasillaFinca}</p>
+            <p><span>Bolsa de NY:</span> $${bolsaNY}</p>
+            <p><span>Tasa de Cambio:</span> $${tasaCambio}</p>
+            <p><span>MeCIC:</span> $${meCIC}</p>
+          `;
+        } else {
+          throw new Error('No se encontraron precios disponibles.');
+        }
+      } catch (error) {
+        document.getElementById('precios').innerHTML = `<p class="error">Error: ${error.message}</p>`;
+      }
+    }
+
+    obtenerPrecios();
+  </script>
+</body>
+</html>
