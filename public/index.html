@@ -160,23 +160,30 @@
     }
 
     function calcularGanancia() {
-      const kilogramos = parseFloat(document.getElementById('kilogramos').value);
-      const precioArroba = parseFloat(document.getElementById('precioArroba').value);
+  const kilogramos = parseFloat(document.getElementById('kilogramos').value);
+  const precioArroba = parseFloat(document.getElementById('precioArroba').value);
 
-      if (isNaN(kilogramos) || kilogramos <= 0) {
-        document.getElementById('resultado').innerText = 'Por favor, ingrese un valor válido para los kilogramos.';
-        return;
-      }
+  if (isNaN(kilogramos) || kilogramos <= 0) {
+    document.getElementById('resultado').innerHTML = '<span style="color:red;">Por favor, ingrese un valor válido para los kilogramos.</span>';
+    return;
+  }
 
-      const precioFinalArroba = isNaN(precioArroba) || precioArroba <= 0 ? precioInternoGlobal : precioArroba;
-      const arrobas = kilogramos / 12.5;
-      const ganancia = arrobas * precioFinalArroba;
+  const precioFinalArroba = isNaN(precioArroba) || precioArroba <= 0 ? precioInternoGlobal : precioArroba;
+  const arrobas = kilogramos / 12.5;
+  const ganancia = arrobas * precioFinalArroba;
 
-      document.getElementById('resultado').innerText = `
-        Por ${kilogramos} kg (${arrobas.toFixed(2)} arrobas) de café,
-        la ganancia es: $${ganancia.toFixed(2)} usando un precio de arroba de $${precioFinalArroba.toFixed(2)}.
-      `;
-    }
+  const formateador = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' });
+
+  document.getElementById('resultado').innerHTML = `
+    <p><strong>Detalles del Cálculo:</strong></p>
+    <ul style="list-style: none; padding: 0; text-align: left;">
+      <li><strong>Kilogramos ingresados:</strong> ${kilogramos.toFixed(2)} kg</li>
+      <li><strong>Equivalente en arrobas:</strong> ${arrobas.toFixed(2)} arrobas</li>
+      <li><strong>Precio por arroba:</strong> ${formateador.format(precioFinalArroba)}</li>
+      <li><strong>Ganancia Total:</strong> ${formateador.format(ganancia)}</li>
+    </ul>
+  `;
+}
 
     obtenerPrecios();
   </script>
