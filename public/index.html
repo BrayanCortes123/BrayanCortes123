@@ -57,7 +57,7 @@
   <script>
     async function obtenerPrecios() {
       try {
-        const response = await fetch('http://localhost:3000/precio-cafe');
+        const response = await fetch('https://brayancortes123-1.onrender.com/precio-cafe');
         if (!response.ok) {
           throw new Error('Error al obtener los precios del servidor.');
         }
