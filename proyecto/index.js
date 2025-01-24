@@ -38,7 +38,7 @@ async function obtenerPrecioCafe() {
       intento++;
       console.error(`Error en el intento ${intento}: ${error.message}`);
       if (intento >= reintentosMaximos) {
-        throw new Error('No se pudo obtener el precio después de varios intentos.');
+        throw new Error('No se pudo obtener el precio');
       }
     }
   }
